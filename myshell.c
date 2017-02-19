@@ -30,8 +30,8 @@ int main(int argc, char *argv[])
     char pwd[1024];
 
     getcwd(pwd, sizeof(pwd));
-    printf("%s>", pwd);
-    
+    printf("%s> ", pwd);
+
     // Parse the commands provided using argc and argv
 
     // Perform an infinite loop getting command input from users
@@ -44,14 +44,14 @@ int main(int argc, char *argv[])
             *pos = '\0';
         }
         strcpy(command, strtok(buffer, " "));
-         
+
         if (strcmp(command, "cd") == 0)
         {
             char *ar = strtok(NULL, "");
             if(ar != NULL)
             {
                 strcpy(arg, ar);
-               // printf("command: %s, arg: %s\n", command, arg); 
+               // printf("command: %s, arg: %s\n", command, arg);
                if(chdir(arg) != 0)
                {
                    //Can't find the directory specified'
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
                else
                {
                    //Set new pwd
-                  getcwd(pwd, sizeof(pwd)); 
+                  getcwd(pwd, sizeof(pwd));
                }
             }
             else
@@ -77,11 +77,50 @@ int main(int argc, char *argv[])
 
 
         // other commands here...
-        
+
         // quit command -- exit the shell
         else if (strcmp(command, "quit") == 0)
         {
             return EXIT_SUCCESS;
+        }
+
+        else if (strcmp(command, "echo")==0)
+        {
+          //printf("%s\n", buffer);
+          char *ar = strtok(NULL, "");
+          if(ar != NULL)
+          {
+            strcpy(arg, ar);
+            printf("%s ", arg);
+          }
+          printf("\n");
+        }
+
+        else if (strcmp(command, "environ")==0)
+        {
+
+        }
+
+        else if (strcmp(command, "dir")==0)
+        {
+
+        }
+
+        else if (strcmp(command, "help")==0)
+        {
+
+        }
+
+        else if (strcmp(command,"pause")==0)
+        {
+          while(1)
+          {
+            char c = getchar();
+            if(c == '\n')//if ENTER key is pressed
+            {
+              break;
+            }
+          }
         }
 
         // Unsupported command
