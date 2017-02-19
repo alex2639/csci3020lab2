@@ -72,7 +72,8 @@ int main(int argc, char *argv[])
 
         else if(strcmp(command, "clr") == 0)
         {
-            printf("\033[2J");
+           // printf("\033[2J");
+           clear();
         }
 
 
@@ -104,7 +105,8 @@ int main(int argc, char *argv[])
 
         else if (strcmp(command, "dir")==0)
         {
-
+            char *ar = strtok(NULL, "");
+            list_directory(ar);
         }
 
         else if (strcmp(command, "help")==0)

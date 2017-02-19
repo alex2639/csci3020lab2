@@ -12,4 +12,8 @@
 // extern keyword such as in the following example:
 // extern void display_help(void);
 
+
+extern void list_directory(char *directory);
+extern void clear();
+
 #endif /* UTILITY_H_ */
