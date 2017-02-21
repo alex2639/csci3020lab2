@@ -36,109 +36,23 @@ int main(int argc, char *argv[])
     if(argc==1){
       FILE *file=fopen(argv[1],"r");
       char *line;
-      while(fscanf(file,line)!=EOF){
-        if (strcmp(line, "cd") == 0)
-        {
-            cd()
-        }
-
-        else if(strcmp(line, "clr") == 0)
-        {
-            clear_shell();
-        }
-
-        // quit command -- exit the shell
-        else if (strcmp(line, "quit") == 0)
-        {
-            return EXIT_SUCCESS;
-        }
-
-        else if (strcmp(line, "echo")==0)
-        {
-            echo(arg);
-        }
-
-        else if (strcmp(line, "environ")==0)
-        {
-            environ(pwd);
-        }
-
-        else if (strcmp(line, "dir")==0)
-        {
-            dir();
-        }
-
-        else if (strcmp(line, "help")==0)
-        {
-            help();
-        }
-
-        else if (strcmp(line,"pause")==0)
-        {
-            pause();
-        }
-
-        // Unsupported command
-        else
-        {
-            fputs("Unsupported command, use help to display the manual\n", stderr);
-        }
+      while(scanf(file,line)!=EOF){
+        get_commands(NULL,line,arg,pwd);
       }
-      return EXIT_SUCCESS;
+
     }else if(argc==2)
     {
       if(strcmp(argv[1],"<")==0)
       {
         FILE *file=fopen(argv[2],"r");
         char *line;
-        while(fscanf(file,line)!=EOF)
-        {
-          if (strcmp(line, "cd") == 0)
-          {
-              cd();
+        while(fscanf(file,line)!=EOF){
+          get_commands(NULL,line,arg,pwd);
+          if(strcmp(line,"quit")==0){
+            break;
           }
-
-          else if(strcmp(line, "clr") == 0)
-          {
-              clear_shell();
-          }
-
-          // quit command -- exit the shell
-          else if (strcmp(line, "quit") == 0)
-          {
-              return EXIT_SUCCESS;
-          }
-
-          else if (strcmp(line, "echo")==0)
-          {
-              echo(arg,NULL);
-          }
-
-          else if (strcmp(line, "environ")==0)
-          {
-              environ(pwd,NULL);
-          }
-
-          else if (strcmp(line, "dir")==0)
-          {
-              dir();
-          }
-
-          else if (strcmp(line, "help")==0)
-          {
-              help();
-          }
-
-          else if (strcmp(line,"pause")==0)
-          {
-              pause();
-          }
-
-          // Unsupported command
-          else
-          {
-              fputs("Unsupported command, use help to display the manual\n", stderr);
-          }
+        }
+        return EXIT_SUCCESS;
       }
       else if(strcmp(argv[1],">")==0)
       {
@@ -153,54 +67,11 @@ int main(int argc, char *argv[])
                 *pos = '\0';
             }
             strcpy(command, strtok(buffer, " "));
-
-            if (strcmp(command, "cd") == 0)
-            {
-                cd();
+            get_commands(file,command,arg,pwd);
+            if(strcmp(command,"quit")==0){
+              break;
             }
-
-            else if(strcmp(command, "clr") == 0)
-            {
-                clear_shell();
-            }
-
-            // quit command -- exit the shell
-            else if (strcmp(command, "quit") == 0)
-            {
-                return EXIT_SUCCESS;
-            }
-
-            else if (strcmp(command, "echo")==0)
-            {
-                echo(arg,file);
-            }
-
-            else if (strcmp(command, "environ")==0)
-            {
-                environ(pwd,file);
-            }
-
-            else if (strcmp(command, "dir")==0)
-            {
-                dir();
-            }
-
-            else if (strcmp(command, "help")==0)
-            {
-                help();
-            }
-
-            else if (strcmp(command,"pause")==0)
-            {
-                pause();
-            }
-
-            // Unsupported command
-            else
-            {
-                fputs("Unsupported command, use help to display the manual\n", stderr);
-            }
-            printf("%s>", pwd);
+            printf("%s> ", pwd);
         }
         return EXIT_SUCCESS;
       }
@@ -217,52 +88,9 @@ int main(int argc, char *argv[])
                 *pos = '\0';
             }
             strcpy(command, strtok(buffer, " "));
-
-            if (strcmp(command, "cd") == 0)
-            {
-                cd();
-            }
-
-            else if(strcmp(command, "clr") == 0)
-            {
-                clear_shell();
-            }
-
-            // quit command -- exit the shell
-            else if (strcmp(command, "quit") == 0)
-            {
-                return EXIT_SUCCESS;
-            }
-
-            else if (strcmp(command, "echo")==0)
-            {
-                echo(arg,file);
-            }
-
-            else if (strcmp(command, "environ")==0)
-            {
-                environ(pwd,file);
-            }
-
-            else if (strcmp(command, "dir")==0)
-            {
-                dir();
-            }
-
-            else if (strcmp(command, "help")==0)
-            {
-                help();
-            }
-
-            else if (strcmp(command,"pause")==0)
-            {
-                pause();
-            }
-
-            // Unsupported command
-            else
-            {
-                fputs("Unsupported command, use help to display the manual\n", stderr);
+            get_commands(file,command,arg,pwd);
+            if(strcmp(command,"quit")==0){
+              break;
             }
             printf("%s>", pwd);
         }
@@ -272,63 +100,24 @@ int main(int argc, char *argv[])
     else if(argc==4)
     {
       FILE *in_file=fopen(argv[2],"r");
+      FILE *out_file;
       if(strcmp(argv[3],">")==0)
       {
-        FILE *out_file=fopen(argv[4],"w");
+        out_file=fopen(argv[4],"w");
       }
       else
       {
-        FILE *out_file=fopen(argv[4],"wa");
+        out_file=fopen(argv[4],"wa");
       }
       char *line;
       while(fscanf(in_file,line)!=EOF)
       {
-        if (strcmp(line, "cd") == 0)
-        {
-            cd();
+        get_commands(out_file,line,arg,pwd);
+        if(strcmp(line,"quit")==0){
+          break;
         }
-
-        else if(strcmp(line, "clr") == 0)
-        {
-            clear_shell();
-        }
-
-        // quit command -- exit the shell
-        else if (strcmp(line, "quit") == 0)
-        {
-            return EXIT_SUCCESS;
-        }
-
-        else if (strcmp(line, "echo")==0)
-        {
-            echo(arg,out_file);
-        }
-
-        else if (strcmp(line, "environ")==0)
-        {
-            environ(pwd,out_file);
-        }
-
-        else if (strcmp(line, "dir")==0)
-        {
-            dir();
-        }
-
-        else if (strcmp(line, "help")==0)
-        {
-            help();
-        }
-
-        else if (strcmp(line,"pause")==0)
-        {
-            pause();
-        }
-
-        // Unsupported command
-        else
-        {
-            fputs("Unsupported command, use help to display the manual\n", stderr);
-        }
+      }
+      return EXIT_SUCCESS;
     }
 
     // Perform an infinite loop getting command input from users
@@ -341,52 +130,9 @@ int main(int argc, char *argv[])
             *pos = '\0';
         }
         strcpy(command, strtok(buffer, " "));
-
-        if (strcmp(command, "cd") == 0)
-        {
-            cd();
-        }
-
-        else if(strcmp(command, "clr") == 0)
-        {
-            clear_shell();
-        }
-
-        // quit command -- exit the shell
-        else if (strcmp(command, "quit") == 0)
-        {
-            return EXIT_SUCCESS;
-        }
-
-        else if (strcmp(command, "echo")==0)
-        {
-            echo(arg,NULL);
-        }
-
-        else if (strcmp(command, "environ")==0)
-        {
-            environ(pwd,NULL);
-        }
-
-        else if (strcmp(command, "dir")==0)
-        {
-            dir();
-        }
-
-        else if (strcmp(command, "help")==0)
-        {
-            help();
-        }
-
-        else if (strcmp(command,"pause")==0)
-        {
-            pause();
-        }
-
-        // Unsupported command
-        else
-        {
-            fputs("Unsupported command, use help to display the manual\n", stderr);
+        get_commands(NULL,command,arg,pwd);
+        if(strcmp(command,"quit")==0){
+          break;
         }
         printf("%s>", pwd);
     }

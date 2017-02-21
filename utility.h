@@ -11,12 +11,13 @@
 // Include your relevant functions declarations here they must start with the
 // extern keyword such as in the following example:
 // extern void display_help(void);
-extern void cd(void);
+extern void cd(char *pwd, char* arg);
 extern void clear_shell(void);
 extern void echo(char *arg,FILE *file);
 extern void environ(char *pwd,FILE *file);
 extern void dir(void);
 extern void help(void);
-extern void pause(void);
+extern void pause_shell(void);
+extern void get_commands(FILE *out_file,char *line, char *arg, char* pwd);
 
 #endif /* UTILITY_H_ */
