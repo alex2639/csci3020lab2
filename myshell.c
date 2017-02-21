@@ -1,7 +1,7 @@
 /*
  * MyShell Project for SOFE 3950U / CSCI 3020U: Operating Systems
  *
- * Copyright (C) 2017, Alex, Damon, Irfaan
+ * Copyright (C) 2017, Alex, Damon
  * All rights reserved.
  *
  */
@@ -111,6 +111,7 @@ int main(int argc, char *argv[])
 
         else if (strcmp(command, "help")==0)
         {
+            int status=system("help");
 
         }
 
