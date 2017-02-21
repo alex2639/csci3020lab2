@@ -81,7 +81,9 @@ int main(int argc, char *argv[])
         else if (strcmp(command, "environ")==0)
         {
           const char* s = getenv("PATH");
-          printf("PATH :%s\n",(s!=NULL)? s : "getenv returned NULL");
+          printf("SHELL :%s\n",(s!=NULL)? s : "getenv returned NULL");
+          getcwd(pwd, sizeof(pwd));
+          printf("PWD: %s\n",pwd);  
         }
 
         else if (strcmp(command, "dir")==0)
