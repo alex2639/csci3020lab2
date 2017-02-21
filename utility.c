@@ -58,3 +58,22 @@ void list_directory(char *directory)
     }
     free(file_names);
 }
+
+
+void cd(char *directory, char *pwd)
+{
+        if(directory != NULL)
+        {
+          //  strcpy(arg, ar);
+            if(chdir(directory) != 0)
+            {
+                //Can't find the directory specified'
+                printf("can't find %s\n", directory);
+            }
+        }
+        else
+        {
+            //print pwd and a new line
+            printf("%s\n", pwd);
+        }
+}

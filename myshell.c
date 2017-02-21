@@ -48,31 +48,12 @@ int main(int argc, char *argv[])
         if (strcmp(command, "cd") == 0)
         {
             char *ar = strtok(NULL, "");
-            if(ar != NULL)
-            {
-                strcpy(arg, ar);
-               // printf("command: %s, arg: %s\n", command, arg);
-               if(chdir(arg) != 0)
-               {
-                   //Can't find the directory specified'
-                    printf("can't find %s\n", arg);
-               }
-               else
-               {
-                   //Set new pwd
-                  getcwd(pwd, sizeof(pwd));
-               }
-            }
-            else
-            {
-                //print pwd and a new line
-                 printf("%s\n", pwd);
-            }
+            cd(ar, pwd);
+            getcwd(pwd, sizeof(pwd));
         }
 
         else if(strcmp(command, "clr") == 0)
         {
-           // printf("\033[2J");
            clear();
         }
 

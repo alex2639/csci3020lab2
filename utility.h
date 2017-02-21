@@ -15,5 +15,6 @@
 
 extern void list_directory(char *directory);
 extern void clear();
+extern void cd(char *directory, char *pwd);
 
 #endif /* UTILITY_H_ */
