@@ -111,8 +111,13 @@ int main(int argc, char *argv[])
 
         else if (strcmp(command, "help")==0)
         {
-            int status=system("help");
-
+            char *ar = strtok(NULL, "");
+            if(ar != NULL)
+            {
+            
+            char *cmd=strcat("man ", ar);
+            int status=system(cmd);
+          }
         }
 
         else if (strcmp(command,"pause")==0)
