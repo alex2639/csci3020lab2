@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     if(argc==1){
       FILE *file=fopen(argv[1],"r");
       char *line;
-      while(scanf(file,line)!=EOF){
+      while(fscanf(file,"%s",line)!=EOF){
         get_commands(NULL,line,arg,pwd);
       }
 
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
       {
         FILE *file=fopen(argv[2],"r");
         char *line;
-        while(fscanf(file,line)!=EOF){
+        while(fscanf(file,"%s",line)!=EOF){
           get_commands(NULL,line,arg,pwd);
           if(strcmp(line,"quit")==0){
             break;
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
       }
       else if(strcmp(argv[1],">>")==0)
       {
-        FILE *file=fopen(argv[2],"wa");
+        FILE *file=fopen(argv[2],"a");
         // Perform an infinite loop getting command input from users
         while (fgets(buffer, BUFFER_LEN, stdin) != NULL)
         {
@@ -107,10 +107,10 @@ int main(int argc, char *argv[])
       }
       else
       {
-        out_file=fopen(argv[4],"wa");
+        out_file=fopen(argv[4],"a");
       }
       char *line;
-      while(fscanf(in_file,line)!=EOF)
+      while(fscanf(in_file,"%s",line)!=EOF)
       {
         get_commands(out_file,line,arg,pwd);
         if(strcmp(line,"quit")==0){
