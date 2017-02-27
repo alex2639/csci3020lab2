@@ -13,11 +13,11 @@
 // extern void display_help(void);
 extern void cd(char *pwd, char* arg);
 extern void clear_shell(void);
-extern void echo(char *arg);
-extern void environ(char *pwd);
+extern void echo(char *arg, FILE *file);
+extern void environ(char *pwd, FILE *file);
 extern void dir(void);
 extern void help(void);
 extern void pause_shell(void);
-extern void get_commands(char *line, char *arg, char* pwd);
+extern void get_commands(FILE *file, char *line, char *arg, char* pwd);
 
 #endif /* UTILITY_H_ */
