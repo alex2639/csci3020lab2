@@ -44,21 +44,44 @@ void clear_shell(){
   printf("\033[H\033[J");
 }
 
-void echo(char *arg){
+void echo(char *arg,FILE *file){
   char *ar = strtok(NULL, "");
   if(ar != NULL)
   {
     strcpy(arg, ar);
-    printf("%s ", arg);    
-  }  
-  printf("\n");  
+    if(file==NULL)
+    {
+      printf("%s ", arg);
+    }
+    else
+    {
+      fprintf(file, "%s ", arg);
+    }
+  }
+  if(file==NULL)
+  {
+    printf("\n");
+  }
+  else
+  {
+    fprintf(file,"\n");
+  }
 }
 
-void environ(char *pwd){
+void environ(char *pwd,FILE *file){
   const char* s = getenv("PATH");
-  getcwd(pwd, sizeof(pwd));  
-  printf("SHELL :%s\n",(s!=NULL)? s : "getenv returned NULL");
-  printf("PWD: %s\n",pwd);  
+  getcwd(pwd, sizeof(pwd));
+  if(file==NULL)
+  {
+    printf("SHELL :%s\n",(s!=NULL)? s : "getenv returned NULL");
+    printf("PWD: %s\n",pwd);
+  }
+  else
+  {
+    fprintf(file,"SHELL :%s\n",(s!=NULL)? s : "getenv returned NULL");
+    fprintf(file,"PWD: %s\n",pwd);
+  }
+
 }
 
 void dir(){
@@ -86,7 +109,7 @@ void pause_shell(){
   }
 }
 
-void get_commands(char *line, char *arg, char* pwd){
+void get_commands(FILE *out_file,char *line, char *arg, char* pwd){
     if (strcmp(line, "cd") == 0)
     {
         cd(pwd,arg);
@@ -105,12 +128,12 @@ void get_commands(char *line, char *arg, char* pwd){
 
     else if (strcmp(line, "echo")==0)
     {
-        echo(arg);
+        echo(arg,out_file);
     }
 
     else if (strcmp(line, "environ")==0)
     {
-        environ(pwd);
+        environ(pwd,out_file);
     }
 
     else if (strcmp(line, "dir")==0)

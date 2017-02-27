@@ -32,7 +32,93 @@ int main(int argc, char *argv[])
     getcwd(pwd, sizeof(pwd));
     printf("%s> ", pwd);
 
-    // Parse the commands provided using argc and argv    
+    // Parse the commands provided using argc and argv
+    if(argc==1){
+      FILE *file=fopen(argv[1],"r");
+      char *line;
+      while(scanf(file,line)!=EOF){
+        get_commands(NULL,line,arg,pwd);
+      }
+
+    }else if(argc==2)
+    {
+      if(strcmp(argv[1],"<")==0)
+      {
+        FILE *file=fopen(argv[2],"r");
+        char *line;
+        while(fscanf(file,line)!=EOF){
+          get_commands(NULL,line,arg,pwd);
+          if(strcmp(line,"quit")==0){
+            break;
+          }
+        }
+        return EXIT_SUCCESS;
+      }
+      else if(strcmp(argv[1],">")==0)
+      {
+        FILE *file=fopen(argv[2],"w");
+        // Perform an infinite loop getting command input from users
+        while (fgets(buffer, BUFFER_LEN, stdin) != NULL)
+        {
+            // Perform string tokenization to get the command and argument
+            char *pos;
+            if ((pos=strchr(buffer, '\n')) != NULL)
+            {
+                *pos = '\0';
+            }
+            strcpy(command, strtok(buffer, " "));
+            get_commands(file,command,arg,pwd);
+            if(strcmp(command,"quit")==0){
+              break;
+            }
+            printf("%s> ", pwd);
+        }
+        return EXIT_SUCCESS;
+      }
+      else if(strcmp(argv[1],">>")==0)
+      {
+        FILE *file=fopen(argv[2],"a");
+        // Perform an infinite loop getting command input from users
+        while (fgets(buffer, BUFFER_LEN, stdin) != NULL)
+        {
+            // Perform string tokenization to get the command and argument
+            char *pos;
+            if ((pos=strchr(buffer, '\n')) != NULL)
+            {
+                *pos = '\0';
+            }
+            strcpy(command, strtok(buffer, " "));
+            get_commands(file,command,arg,pwd);
+            if(strcmp(command,"quit")==0){
+              break;
+            }
+            printf("%s>", pwd);
+        }
+        return EXIT_SUCCESS;
+      }
+    }
+    else if(argc==4)
+    {
+      FILE *in_file=fopen(argv[2],"r");
+      FILE *out_file;
+      if(strcmp(argv[3],">")==0)
+      {
+        out_file=fopen(argv[4],"w");
+      }
+      else
+      {
+        out_file=fopen(argv[4],"a");
+      }
+      char *line;
+      while(fscanf(in_file,line)!=EOF)
+      {
+        get_commands(out_file,line,arg,pwd);
+        if(strcmp(line,"quit")==0){
+          break;
+        }
+      }
+      return EXIT_SUCCESS;
+    }
 
     // Perform an infinite loop getting command input from users
     while (fgets(buffer, BUFFER_LEN, stdin) != NULL)
@@ -44,7 +130,7 @@ int main(int argc, char *argv[])
             *pos = '\0';
         }
         strcpy(command, strtok(buffer, " "));
-        get_commands(command,arg,pwd);
+        get_commands(NULL,command,arg,pwd);
         if(strcmp(command,"quit")==0){
           break;
         }
