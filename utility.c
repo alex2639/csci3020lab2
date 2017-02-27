@@ -1,7 +1,7 @@
 /*
  * MyShell Project for SOFE 3950U / CSCI 3020U: Operating Systems
  *
- * Copyright (C) 2017, Alex, Damon
+ * Copyright (C) 2017, Alex, Damon, Irfaan
  * All rights reserved.
  *
  */
@@ -85,8 +85,15 @@ void environ(char *pwd,FILE *file){
 }
 
 void dir(){
-  char *ar = strtok(NULL, "");
-  list_directory(ar);
+  // /char *ar = strtok(NULL, "");
+  DIR *dir_path; //directory path storage variable
+  struct dirent *current_file; //struct of directory
+  dir_path = opendir ("./"); //opens current directory
+  while (current_file = readdir(dir_path)){ //loops and prints the names of all the contents of a dir
+    printf("%s\n", current_file->d_name);//prints current file name to terminal
+  }
+  (void)closedir (dir_path); //closes directory path
+  //list_directory(ar);
 }
 
 void help(){
@@ -94,7 +101,7 @@ void help(){
   if(ar != NULL)
   {
     //char *cmd=strcat("man ", ar);
-    int status=system("more README.md");
+    int status=system("README.md");
   }
 }
 
