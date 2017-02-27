@@ -96,13 +96,24 @@ void dir(){
   //list_directory(ar);
 }
 
+//print readme to screen for user
 void help(){
-  char *ar = strtok(NULL, "");
-  if(ar != NULL)
-  {
-    //char *cmd=strcat("man ", ar);
-    int status=system("README.md");
+  //char *ar = strtok(NULL, "");
+  char txt;
+  FILE *README;
+  README = fopen("README.md", "r"); //reading readme file
+  if (README){	//if file exists
+    while ((txt = getc(README)) != EOF){ //print each character to screen
+        printf("%c", txt);
+    }
+    fclose(README);//close readme file
   }
+
+  //if(ar != NULL)
+  //{
+    //char *cmd=strcat("man ", ar);
+    //int status=system("README.md");
+  //}
 }
 
 void pause_shell(){
