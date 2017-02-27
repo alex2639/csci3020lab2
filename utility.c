@@ -93,8 +93,8 @@ void help(){
   char *ar = strtok(NULL, "");
   if(ar != NULL)
   {
-    char *cmd=strcat("man ", ar);
-    int status=system(cmd);
+    //char *cmd=strcat("man ", ar);
+    int status=system("more README.md");
   }
 }
 
