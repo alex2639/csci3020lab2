@@ -86,7 +86,7 @@ void environ(char *pwd,FILE *file){
 
 void dir(){
   char *ar = strtok(NULL, "");
-  //list_directory(ar);
+  list_directory(ar);
 }
 
 void help(){
